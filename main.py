@@ -1,5 +1,6 @@
 from airtable import AirtableClient
 from data_fetcher import DataFetcher
+from data_transformer import dataTransformer
 
 # Client
 client = AirtableClient("Feedback")
@@ -21,4 +22,15 @@ fetcher = DataFetcher(API_URL)
 # Obtener datos
 external_data = fetcher.fetch_data()
 print("Datos obtenidos:", external_data)
+
+
+raw_data = [
+    {"name": "John Doe", "email": "john@example.com", "feedback": "Great service!", "date_submitted": "2025-01-20"},
+    {"name": "Jane Smith", "email": "jane@example.com", "feedback": "Could be better", "date_submitted": "2025-01-19"}
+]
+REQUIRED_FIELDS = ["Name", "Email", "Feedback", "Date Submitted", "Status"]
+
+transformer = DataTransformer(REQUIRED_FIELDS)
+transformed_data = transformer.transform(raw_data)
+print("Datos transformados:", transformed_data)
 
