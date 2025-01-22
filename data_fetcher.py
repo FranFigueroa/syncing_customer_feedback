@@ -1,5 +1,6 @@
 import requests
 
+
 class DataFetcher:
     def __init__(self, api_url):
         self.api_url = api_url
@@ -10,6 +11,6 @@ class DataFetcher:
             response.raise_for_status()
             return response.json()
         except requests.exceptions.RequestException as e:
-            print("Error al obtener datos del sistema externo:", e)
+            print(f"Error al obtener datos del sistema externo: {e}")
             return []
 

@@ -16,16 +16,27 @@ class AirtableClient:
     def fetch_records(self):
         try:
             return self.table.all()
+        except AirtableApiError as e:
+            print(f"Error de API al obtener registros: {e}")
+            return []
         except Exception as e:
-            print("Error al obtener los registros:", e)
+            print(f"Error desconocido al obtener registros: {e}")
             return []
 
-    def insert_record(self, record):
+    def insert_or_update_record(self, record):
         try:
-            return self.table.create(record)
+            existing_records = self.table.all()
+            for existing in existing_records:
+                if existing["fields"].get("Email") == record.get("Email"):
+                    self.table.update(existing["id"], record)
+                    print(f"Registro actualizado: {record}")
+                    return
+            self.table.create(record)
+            print(f"Registro insertado: {record}")
+        except AirtableApiError as e:
+            print(f"Error de API al insertar o actualizar registros: {e}")
         except Exception as e:
-            print("Error al insertar el registro:", e)
-            return None
+            print(f"Error desconocido al insertar o actualizar registros: {e}")
 
 # Testing Connection
 TABLE_NAME = "Feedback"
