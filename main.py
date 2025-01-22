@@ -5,7 +5,8 @@ client = AirtableClient("Feedback")
 
 # Tesing GET Registers
 records = client.fetch_records()
-print("Registros obtenidos:", records)
+for record in records:
+    print(record["fields"])
 
 # Testing new record
 new_record = {"Name": "John Doe", "Feedback": "Great service!"}
